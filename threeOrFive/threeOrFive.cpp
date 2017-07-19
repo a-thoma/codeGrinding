@@ -7,15 +7,24 @@
 #include <iostream>
 
 int main() {
-	int sum = 0;
+	
+/**
+* Note: Fastest way to do this (fastest in terms of writing, not execution)
+* is to just sum anything below 1000 that, when mod 3 or mod 5, evaluates to 0.
+*
+* More efficient way is to use the principal of inclusion and exclusion.
+*
+* This is done in a way that isn't the most efficient, but explains
+* the use of the PIE through the design.
+*/
 
-	for(int i = 3; i <= 1000; i++) {
-		if ((i%3 == 0) || (i%5 = 0)) {
-			sum += i;
-		}
-	}
+	int divThree   = 3  * ((333 * 334) / 2); // Using (n * (n + 1) / 2).
+	int divFive    = 5  * ((199 * 200) / 2);
+	int divFifteen = 15 * ((66  *  67) / 2);
 
-	std::cout << Sum of all mutliples of 3 or 5: << sum << std::endl;
+	int sum = divThree + divFive - divFifteen;
+
+	std::cout << "Sum of all mutliples of 3 or 5 below 1000: " << sum << std::endl;
 
 	return EXIT_SUCCESS;
 }
