@@ -51,8 +51,19 @@ int rhoAlgo(long x, long y, long n) { // Should have parameters...?
 	y = gFunc(gFunc(y, n), n);
 
 	// Find our GCD
-	int f = gcd(abs(x - y), n);
+	short f = gcd(abs(x - y), n);
 
+	// Result storage
+	short result = 0;
+
+	if (result < f) {
+
+		// If our result is less than our new GCD, update it
+		result = f;
+	}
+
+	// Now that our result is the largest of the GCDs so far...
+	// If our 
 	if(f < n) {
 		rhoAlgo(x, y, n);
 	}
