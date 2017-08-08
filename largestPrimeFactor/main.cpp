@@ -5,17 +5,26 @@
 */
 
 #include <iostream>
+#include <cmath>
 
 
 /*************************************************************************
 * Function that takes in two integers, a and b, and returns their greatest
 * common denominator.
 */
-int gcd(int a, int b) {
+int gcd(long a, long b) {
 
-	// TODO: Write gcd method
+	long c = a / b; // Quotient
+	long r = a % b; // Remainder
 
-	return 0;
+	if (r != 0) { // If our remainder isn't zero
+
+		// Recursively call gcd(b, r) until our condition is met (found gcd)
+		return gcd(b, r); // Recurse
+	}
+
+	// Otherwise we return b, which should be the gcd
+	return b;
 }
 
 /*****************************************************************************
@@ -26,11 +35,31 @@ int gcd(int a, int b) {
 * Normally, g(x) = (x^2 - 1) mod n, but it is more popular nowadays to use the
 * function chosen.
 */
-int gFunc(int absDiff, int n) {
+int gFunc(int x, long n) {
 
 	// TODO: Write g(x) method
 
-	return 0;
+	return (((x * x) + 1) % n);
+}
+
+int rhoAlgo(long x, long y, long n) { // Should have parameters...?
+
+	// Get our x value
+	x = gFunc(x, n);
+
+	// Get our y value
+	y = gFunc(gFunc(y, n), n);
+
+	// Find our GCD
+	int f = gcd(abs(x - y), n);
+
+	if(f < n) {
+		rhoAlgo(x, y, n);
+	}
+
+	return f;
+
+	// TODO: Migrate the actual rho algorithm here.
 }
 
 /**********************
@@ -40,23 +69,15 @@ int main() {
 
 	// Using Pollard's rho algorithm
 
-	long n        = 600851475143; // Number we would like to find the prime factors of.
+	long n        = 8051; // Number we would like to find the prime factors of.
 	int  x        = 2           ; // Arbitrarily-chosen value, to be fixed.
-	int  y        = 2           ; // Arbitrarily-chosen value, variable.
-	int  f        = 1           ; // Storage for checking if our prime factor is 1.
+	long y        = 2           ; // Arbitrarily-chosen value, variable.
+	long f        = 1           ; // Storage for checking if our prime factor is 1.
 	int  cycleNum = 2           ; // Initial cycle value.
 
-	while(x < n) {
-		for (int i = 1; i < cycleNum && f <= 1; i++) {
-			y = gFunc( y,      n); // calculate our next x using the g-function.
-			f = gcd  ((y - x), n); // Get our next factor.
-		}
+	
 
-		cycleNum *= 2; // Increase our cycles a la binary tree.
-		x         = y; // Update our values.
-	}
-
-	std::cout << "The factor is " << f << std::endl;
+	std::cout << "The factor is " << rhoAlgo(x, y, n) << std::endl;
 	
 	return EXIT_SUCCESS;
 }
